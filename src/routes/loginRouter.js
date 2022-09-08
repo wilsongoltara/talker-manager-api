@@ -1,8 +1,9 @@
 const login = require('express').Router();
+const generateToken = require('../util/randomToken');
 
-login.post('/', (req, res) => {
-  const { body } = req;
-  res.status(200).send(body);
+login.post('/', (_req, res) => {
+  const token = generateToken();
+  res.status(200).json({ token });
 });
 
 module.exports = login;
