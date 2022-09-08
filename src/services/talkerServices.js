@@ -1,5 +1,5 @@
 const fs = require('fs/promises');
-const notFoundMessage = require('../util/customMessage');
+const { notFoundMessage } = require('../util/customMessage');
 
 const filepath = 'src/talker.json';
 
