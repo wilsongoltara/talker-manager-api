@@ -24,7 +24,12 @@ const getTalkerById = async (id) => {
   }
 };
 
+const addTalker = async (newTalker) => { 
+
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
+  addTalker,
 };
