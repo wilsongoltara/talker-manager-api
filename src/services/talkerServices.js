@@ -1,5 +1,6 @@
 const fs = require('fs/promises');
 const { notFoundMessage } = require('../util/customMessage');
+const { HTTP_OK_STATUS, HTTP_NOT_FOUND } = require('../util/statusHttp');
 
 const filepath = 'src/talker.json';
 
@@ -17,8 +18,8 @@ const getTalkerById = async (id) => {
     const talkers = await getTalkers();
     const talkerFound = talkers.find((talker) => talker.id === Number(id));
     return talkerFound
-      ? { result: talkerFound, statusCode: 200 }
-      : { result: notFoundMessage, statusCode: 404 };
+      ? { result: talkerFound, statusCode: HTTP_OK_STATUS }
+      : { result: notFoundMessage, statusCode: HTTP_NOT_FOUND };
   } catch (err) {
     return err;
   }
