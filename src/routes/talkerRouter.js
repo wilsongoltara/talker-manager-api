@@ -14,6 +14,7 @@ const {
 } = require('../middlewares/validateTalker');
 
 const HTTP_OK_STATUS = 200;
+const HTTP_CREATED_STATUS = 200;
 
 talker.get('/', async (_req, res) => {
   const talkers = await getTalkers();
@@ -36,7 +37,7 @@ talker.post('/',
   async (req, res) => {
     const { body } = req;
     const resultPost = await addTalker(body); 
-    res.status(HTTP_OK_STATUS).json(resultPost);
+    res.status(HTTP_CREATED_STATUS).json(resultPost);
   });
 
 // talker.get('', () => { });

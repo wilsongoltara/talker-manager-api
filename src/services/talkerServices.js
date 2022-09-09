@@ -25,7 +25,21 @@ const getTalkerById = async (id) => {
 };
 
 const addTalker = async (newTalker) => { 
-
+  try {
+    const talkers = await getTalkers();
+    const lastIndex = talkers.length - 1;
+    const talkerAdd = {
+      id: talkers[lastIndex].id + 1,
+      ...newTalker,
+    };
+    
+    talkers.push(talkerAdd);
+    await fs.writeFile(filepath, JSON.stringify(talkers));
+    
+    return talkerAdd;
+  } catch (err) {
+    return err;
+  }
 };
 
 module.exports = {

@@ -15,8 +15,8 @@ const {
 const validateToken = (req, res, next) => {
   const { headers: { authorization } } = req;
 
-  if (!authorization) return res.status(400).send(tokenNotFound);
-  if (authorization.length !== 16) return res.status(400).send(invalidToken);
+  if (!authorization) return res.status(401).send(tokenNotFound);
+  if (authorization.length !== 16) return res.status(401).send(invalidToken);
 
   next();
 };
