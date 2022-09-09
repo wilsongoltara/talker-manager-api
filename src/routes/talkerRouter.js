@@ -4,6 +4,7 @@ const {
   getTalkerById,
   addTalker,
   updateTalker,
+  deleteTalker,
 } = require('../services/talkerServices');
 const {
   validateToken,
@@ -13,7 +14,7 @@ const {
   validateRate,
   validateTalk,
 } = require('../middlewares/validateTalker');
-const { HTTP_OK_STATUS, HTTP_CREATED_STATUS } = require('../util/statusHttp');
+const { HTTP_OK_STATUS, HTTP_CREATED_STATUS, HTTP_NO_CONTENT } = require('../util/statusHttp');
 
 talker.get('/', async (_req, res) => {
   const talkers = await getTalkers();
@@ -50,10 +51,14 @@ talker.put('/:id',
   validateRate,
   async (req, res) => {
     const { params: { id }, body } = req;
-    const resultUpdate = await updateTalker(body, Number(id));
+    const resultUpdate = await updateTalker(body, id);
     res.status(HTTP_OK_STATUS).json(resultUpdate);
   });
 
-// talker.delete('', () => { });
+talker.delete('/:id', validateToken, async (req, res) => { 
+  const { params: { id } } = req;
+  await deleteTalker(id);
+  res.sendStatus(HTTP_NO_CONTENT);
+});
 
 module.exports = talker;

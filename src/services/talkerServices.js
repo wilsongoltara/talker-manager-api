@@ -45,15 +45,15 @@ const addTalker = async (newTalker) => {
 
 const updateTalker = async (newTalker, id) => {
   try {
-    const result = await getTalkers();
-    const index = result.findIndex((obj) => obj.id === id);
+    const talkers = await getTalkers();
+    const index = talkers.findIndex((talker) => talker.id === Number(id));
     
     if (index !== -1) {   
-      const talker = { id, ...newTalker };
+      const talker = { id: Number(id), ...newTalker };
       
-      result.splice(index, 1);
-      result.push(talker);
-      await fs.writeFile(filepath, JSON.stringify(result));
+      talkers.splice(index, 1);
+      talkers.push(talker);
+      await fs.writeFile(filepath, JSON.stringify(talkers));
       
       return talker;
     }
@@ -64,9 +64,16 @@ const updateTalker = async (newTalker, id) => {
   }
 };
 
+const deleteTalker = async (id) => {
+  const talkers = await getTalkers();
+  const newListTalkers = talkers.filter((talker) => talker.id !== Number(id));
+  await fs.writeFile(filepath, JSON.stringify(newListTalkers));
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
   addTalker,
   updateTalker,
+  deleteTalker,
 };
