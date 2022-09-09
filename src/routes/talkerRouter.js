@@ -3,6 +3,7 @@ const {
   getTalkers,
   getTalkerById,
   addTalker,
+  updateTalker,
 } = require('../services/talkerServices');
 const {
   validateToken,
@@ -25,6 +26,8 @@ talker.get('/:id', async (req, res) => {
   res.status(statusCode).json(result);
 });
 
+// talker.get('', () => { });
+
 talker.post('/',
   validateToken,
   validateName,
@@ -38,8 +41,19 @@ talker.post('/',
     res.status(HTTP_CREATED_STATUS).json(resultPost);
   });
 
-// talker.get('', () => { });
-// talker.put('', () => { });
+talker.put('/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatched,
+  validateRate,
+  async (req, res) => {
+    const { params: { id }, body } = req;
+    const resultUpdate = await updateTalker(body, Number(id));
+    res.status(HTTP_OK_STATUS).json(resultUpdate);
+  });
+
 // talker.delete('', () => { });
 
 module.exports = talker;

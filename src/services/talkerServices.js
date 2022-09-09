@@ -43,8 +43,30 @@ const addTalker = async (newTalker) => {
   }
 };
 
+const updateTalker = async (newTalker, id) => {
+  try {
+    const result = await getTalkers();
+    const index = result.findIndex((obj) => obj.id === id);
+    
+    if (index !== -1) {   
+      const talker = { id, ...newTalker };
+      
+      result.splice(index, 1);
+      result.push(talker);
+      await fs.writeFile(filepath, JSON.stringify(result));
+      
+      return talker;
+    }
+    
+    return notFoundMessage;
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   getTalkers,
   getTalkerById,
   addTalker,
+  updateTalker,
 };
