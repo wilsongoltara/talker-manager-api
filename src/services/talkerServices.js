@@ -25,6 +25,18 @@ const getTalkerById = async (id) => {
   }
 };
 
+const getTalkerByTerm = async (term) => {
+  try {
+    const talkers = await getTalkers();
+    if (!term) return talkers;
+    
+    const talkerIncludes = talkers.filter((talker) => talker.name.includes(term));
+    if (talkerIncludes) return talkerIncludes;
+  } catch (err) {
+    return err;
+  }
+};
+
 const addTalker = async (newTalker) => { 
   try {
     const talkers = await getTalkers();
@@ -71,9 +83,10 @@ const deleteTalker = async (id) => {
 };
 
 module.exports = {
+  addTalker,
   getTalkers,
   getTalkerById,
-  addTalker,
+  getTalkerByTerm,
   updateTalker,
   deleteTalker,
 };

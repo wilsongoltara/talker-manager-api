@@ -1,8 +1,9 @@
 const talker = require('express').Router();
 const {
+  addTalker,
   getTalkers,
   getTalkerById,
-  addTalker,
+  getTalkerByTerm,
   updateTalker,
   deleteTalker,
 } = require('../services/talkerServices');
@@ -21,13 +22,17 @@ talker.get('/', async (_req, res) => {
   res.status(HTTP_OK_STATUS).json(talkers);
 });
 
+talker.get('/search', validateToken, async (req, res) => { 
+  const { query: { q } } = req;
+  const result = await getTalkerByTerm(q);
+  res.status(HTTP_OK_STATUS).json(result);
+});
+
 talker.get('/:id', async (req, res) => {
   const { params: { id } } = req;
   const { result, statusCode } = await getTalkerById(id);
   res.status(statusCode).json(result);
 });
-
-// talker.get('', () => { });
 
 talker.post('/',
   validateToken,
